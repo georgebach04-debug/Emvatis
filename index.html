@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emvatis — Kythnos, Greece</title>
+<meta name="description" content="Two quiet homes in Merichas, on the island of Kythnos. A celebration of the island's beaches, villages and slow pace — with Emvatis E1 and Emvatis E3 as your simple base.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   EMVATIS · KYTHNOS
+   Design tokens
+   ========================================================= */
+:root{
+  --limestone:   #F3EFE6;
+  --limestone-2: #ECE6D9;
+  --ink:         #2B2A28;
+  --ink-soft:    #5C5A55;
+  --aegean:      #1E3A45;
+  --aegean-2:    #142931;
+  --sea:         #5F8C94;
+  --gold:        #C8A05E;
+  --olive:       #8C9574;
+  --white:       #FFFFFF;
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Work Sans', sans-serif;
+
+  --container: 1180px;
+  --gutter: clamp(20px, 5vw, 64px);
+
+  --radius: 2px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+/* =========================================================
+   Reset
+   ========================================================= */
+*,*::before,*::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--limestone);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+img{ max-width:100%; display:block; }
+a{ color: inherit; text-decoration:none; }
+ul{ margin:0; padding:0; list-style:none; }
+h1,h2,h3,h4,p{ margin:0; }
+button{ font-family: inherit; cursor:pointer; }
+input, textarea{ font-family: inherit; font-size: 1rem; }
+
+:focus-visible{
+  outline: 2px solid var(--aegean);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* =========================================================
+   Type scale
+   ========================================================= */
+.eyebrow{
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sea);
+  font-weight: 600;
+}
+.eyebrow--light{ color: rgba(243,239,230,0.75); }
+
+h1, .h1{
+  font-family: var(--font-display);
+  font-weight: 340;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+h2, .h2{
+  font-family: var(--font-display);
+  font-weight: 340;
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  line-height: 1.12;
+}
+h3, .h3{
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+  line-height: 1.25;
+}
+.lede{
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  color: var(--ink-soft);
+  max-width: 38em;
+}
+.poem{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 320;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  line-height: 1.5;
+  color: var(--aegean);
+}
+.poem em{
+  color: var(--sea);
+  font-style: italic;
+}
+
+/* =========================================================
+   Layout helpers
+   ========================================================= */
+.wrap{
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+.section{
+  padding: clamp(64px, 11vw, 140px) 0;
+}
+.section--tight{ padding: clamp(40px, 7vw, 90px) 0; }
+.section--aegean{ background: var(--aegean); color: var(--limestone); }
+.section--line{ border-top: 1px solid rgba(43,42,40,0.1); }
+
+.grid{ display:grid; gap: var(--gutter); }
+@media (min-width: 860px){
+  .grid--2{ grid-template-columns: 1fr 1fr; }
+  .grid--3{ grid-template-columns: repeat(3, 1fr); }
+  .grid--asym-left{ grid-template-columns: 1.2fr 1fr; align-items:center; }
+  .grid--asym-right{ grid-template-columns: 1fr 1.2fr; align-items:center; }
+}
+
+.reveal{
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .9s var(--ease), transform .9s var(--ease);
+}
+.reveal.is-visible{ opacity:1; transform:none; }
+
+/* =========================================================
+   Navigation
+   ========================================================= */
+.nav{
+  position: fixed;
+  top:0; left:0; right:0;
+  z-index: 100;
+  padding: 22px 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color: var(--ink);
+  transition: background .4s var(--ease), padding .4s var(--ease), box-shadow .4s var(--ease), color .4s var(--ease);
+}
+.nav .wrap{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+}
+.nav.is-scrolled{
+  background: rgba(243,239,230,0.92);
+  backdrop-filter: blur(10px);
+  padding: 14px 0;
+  box-shadow: 0 1px 0 rgba(43,42,40,0.08);
+  color: var(--ink);
+}
+.nav--on-dark{ color: var(--limestone); }
+.nav.menu-open{ color: var(--limestone); }
+.nav-mark{
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  display:flex;
+  flex-direction:column;
+  line-height:1.1;
+  color: var(--ink);
+}
+.nav--on-dark .nav-mark{ color: var(--limestone); }
+.nav.is-scrolled .nav-mark{ color: var(--ink); }
+.nav-mark span{
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.32em;
+  color: var(--sea);
+  font-weight: 600;
+}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap: clamp(18px, 3vw, 38px);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+}
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap: clamp(16px, 2.6vw, 34px);
+}
+.nav--on-dark .nav-links{ color: var(--limestone); }
+.nav.is-scrolled .nav-links{ color: var(--ink); }
+.nav-links a{
+  position:relative;
+  padding-bottom: 4px;
+}
+.nav-links a::after{
+  content:'';
+  position:absolute;
+  left:0; right:100%; bottom:0;
+  height:1px;
+  background: currentColor;
+  transition: right .35s var(--ease);
+}
+.nav-links a:hover::after, .nav-links a.is-active::after{ right:0; }
+.nav-links a.is-active{ font-weight:600; }
+.nav-toggle{
+  display:none;
+  position:relative;
+  width:26px; height:18px;
+  background:none;
+  border:none;
+  padding:0;
+  color: inherit;
+}
+.nav-toggle span{
+  position:absolute; left:0; right:0; height:1.5px;
+  background: currentColor;
+  transition: transform .35s var(--ease), opacity .35s var(--ease), top .35s var(--ease);
+}
+.nav-toggle span:nth-child(1){ top:0; }
+.nav-toggle span:nth-child(2){ top:50%; transform: translateY(-50%); }
+.nav-toggle span:nth-child(3){ top:100%; transform: translateY(-100%); }
+.nav-toggle.is-open span:nth-child(1){ top:50%; transform: translateY(-50%) rotate(45deg); }
+.nav-toggle.is-open span:nth-child(2){ opacity:0; }
+.nav-toggle.is-open span:nth-child(3){ top:50%; transform: translateY(-50%) rotate(-45deg); }
+
+@media (max-width: 760px){
+  .nav-links{
+    position: fixed;
+    inset: 0;
+    background: var(--aegean);
+    color: var(--limestone);
+    flex-direction: column;
+    justify-content:center;
+    gap: 28px;
+    font-size: 1.3rem;
+    transform: translateX(100%);
+    transition: transform .45s var(--ease);
+  }
+  .nav-links.is-open{ transform: translateX(0); }
+  .nav-toggle{ display:block; z-index: 110; }
+  .nav.menu-open{ color: var(--limestone); }
+  .nav.menu-open .nav-cta{ display:none; }
+}
+
+/* =========================================================
+   Buttons / links
+   ========================================================= */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding: 14px 30px;
+  border: 1px solid currentColor;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight:600;
+  transition: background .3s var(--ease), color .3s var(--ease);
+}
+.btn--solid{
+  background: var(--aegean);
+  border-color: var(--aegean);
+  color: var(--limestone);
+}
+.btn--solid:hover{ background: var(--aegean-2); }
+.btn--ghost-light{
+  color: var(--limestone);
+  border-color: rgba(243,239,230,0.5);
+}
+.btn--ghost-light:hover{
+  background: rgba(243,239,230,0.12);
+  border-color: var(--limestone);
+}
+.btn--ghost{
+  color: var(--ink);
+  border-color: rgba(43,42,40,0.25);
+}
+.btn--ghost:hover{
+  background: var(--ink);
+  color: var(--limestone);
+  border-color: var(--ink);
+}
+.btn--cta{
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--aegean-2);
+}
+.btn--cta:hover{
+  background: #d8b378;
+  border-color: #d8b378;
+}
+.btn--nav{
+  padding: 10px 22px;
+  font-size: 0.74rem;
+}
+@media (max-width: 480px){
+  .btn--nav{ padding: 9px 16px; letter-spacing: 0.08em; }
+}
+.link-arrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:0.85rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  font-weight:600;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 6px;
+}
+.link-arrow svg{ transition: transform .3s var(--ease); }
+.link-arrow:hover svg{ transform: translateX(6px); }
+
+/* =========================================================
+   Hero
+   ========================================================= */
+.hero{
+  position:relative;
+  height: 100vh;
+  min-height: 560px;
+  display:flex;
+  align-items:flex-end;
+  color: var(--limestone);
+  overflow:hidden;
+}
+.hero__media{
+  position:absolute; inset:0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.04);
+}
+.hero__media::after{
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(20,41,49,0.18) 0%, rgba(20,41,49,0.12) 38%, rgba(20,41,49,0.78) 100%);
+}
+.hero__content{
+  position:relative;
+  z-index:2;
+  padding-bottom: clamp(56px, 9vw, 110px);
+  width:100%;
+}
+.hero__content .eyebrow{ color: var(--gold); margin-bottom: 18px; display:block; }
+.hero h1{ max-width: 16ch; }
+.hero__sub{
+  margin-top: 22px;
+  max-width: 32ch;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  color: rgba(243,239,230,0.85);
+}
+.hero__scroll{
+  position:absolute;
+  bottom: 28px; left: var(--gutter);
+  z-index:2;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:0.72rem;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color: rgba(243,239,230,0.7);
+}
+.hero__scroll .line{
+  width:1px; height:34px;
+  background: rgba(243,239,230,0.45);
+  position:relative;
+  overflow:hidden;
+}
+.hero__scroll .line::after{
+  content:'';
+  position:absolute; top:-100%; left:0; right:0; height:100%;
+  background: var(--limestone);
+  animation: scrollline 2.6s var(--ease) infinite;
+}
+@keyframes scrollline{
+  0%{ top:-100%; }
+  60%{ top:100%; }
+  100%{ top:100%; }
+}
+
+/* =========================================================
+   Intro / poem section
+   ========================================================= */
+.intro{
+  display:grid;
+  gap: clamp(32px, 6vw, 90px);
+}
+@media (min-width: 860px){
+  .intro{ grid-template-columns: 1.3fr 0.8fr; align-items:start; }
+}
+.intro__note{
+  display:flex;
+  flex-direction:column;
+  gap: 22px;
+  padding-top: 0.4em;
+}
+.intro__note .rule{
+  width: 48px; height:1px; background: var(--olive);
+}
+
+/* =========================================================
+   Island feature rows
+   ========================================================= */
+.feature-row{
+  display:grid;
+  gap: clamp(28px, 6vw, 70px);
+  align-items:center;
+}
+@media (min-width: 860px){
+  .feature-row{ grid-template-columns: 1fr 1fr; }
+  .feature-row.is-reversed .feature-row__media{ order:2; }
+}
+.feature-row__media{
+  aspect-ratio: 4/5;
+  overflow:hidden;
+  border-radius: var(--radius);
+}
+.feature-row__media img{
+  width:100%; height:100%; object-fit:cover;
+  transition: transform 1.4s var(--ease);
+}
+.feature-row__media:hover img{ transform: scale(1.045); }
+.feature-row__num{
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--gold);
+  letter-spacing: 0.3em;
+  display:block;
+  margin-bottom: 18px;
+}
+.feature-row h2{ margin-bottom: 20px; }
+.feature-row p + p{ margin-top: 14px; }
+
+/* =========================================================
+   Signpost (signature element)
+   ========================================================= */
+.signpost{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 22px;
+  margin-top: 56px;
+}
+.signpost__post{
+  flex: 1 1 240px;
+  min-width: 220px;
+  background: var(--aegean-2);
+  border: 1px solid rgba(243,239,230,0.18);
+  padding: 22px 24px;
+  position:relative;
+}
+.signpost__post:nth-child(odd){ transform: rotate(-0.6deg); }
+.signpost__post:nth-child(even){ transform: rotate(0.5deg); }
+.signpost__row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.signpost__arrow{
+  flex-shrink:0;
+  color: var(--gold);
+}
+.signpost__place{
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  color: var(--limestone);
+  text-transform: uppercase;
+}
+.signpost__desc{
+  margin-top: 10px;
+  font-size: 0.92rem;
+  color: rgba(243,239,230,0.68);
+  line-height:1.55;
+}
+
+/* =========================================================
+   Stay cards
+   ========================================================= */
+.stay-card{
+  position:relative;
+  display:block;
+  overflow:hidden;
+  border-radius: var(--radius);
+  background: var(--ink);
+  aspect-ratio: 3/4;
+}
+.stay-card img{
+  width:100%; height:100%; object-fit:cover;
+  transition: transform 1.2s var(--ease);
+}
+.stay-card:hover img{ transform: scale(1.06); }
+.stay-card__overlay{
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(20,41,49,0) 35%, rgba(20,41,49,0.85) 100%);
+}
+.stay-card__content{
+  position:absolute; left:0; right:0; bottom:0;
+  padding: clamp(24px, 4vw, 36px);
+  color: var(--limestone);
+}
+.stay-card__content .eyebrow{ color: var(--gold); }
+.stay-card__content h3{ margin: 8px 0 10px; font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
+.stay-card__meta{
+  display:flex; gap:16px; flex-wrap:wrap;
+  font-size: 0.82rem; letter-spacing:0.08em; text-transform:uppercase;
+  color: rgba(243,239,230,0.75);
+  margin-bottom: 14px;
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+.footer{
+  background: var(--aegean-2);
+  color: var(--limestone);
+  padding: clamp(50px, 8vw, 90px) 0 30px;
+}
+.footer__top{
+  display:grid;
+  gap: 40px;
+}
+@media (min-width: 760px){
+  .footer__top{ grid-template-columns: 1.3fr 1fr 1fr; }
+}
+.footer__mark{
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+}
+.footer__mark span{
+  display:block;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.32em;
+  color: var(--sea);
+  margin-top: 6px;
+  font-weight:600;
+}
+.footer h4{
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  font-weight:600;
+}
+.footer a{ display:block; padding: 4px 0; color: rgba(243,239,230,0.82); }
+.footer a:hover{ color: var(--limestone); }
+.footer__bottom{
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(243,239,230,0.14);
+  display:flex; flex-wrap:wrap; gap:12px;
+  justify-content:space-between;
+  font-size: 0.78rem;
+  color: rgba(243,239,230,0.5);
+}
+
+/* =========================================================
+   House page — detail header
+   ========================================================= */
+.page-hero{
+  height: 78vh;
+  min-height: 480px;
+}
+.page-hero h1{ max-width: 18ch; }
+
+.detail-grid{
+  display:grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 700px){
+  .detail-grid{ grid-template-columns: repeat(4, 1fr); }
+}
+.detail-card{
+  border: 1px solid rgba(43,42,40,0.12);
+  padding: 24px 20px;
+}
+.detail-card svg{ color: var(--sea); margin-bottom: 14px; }
+.detail-card__num{
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+}
+.detail-card__label{
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+/* =========================================================
+   Gallery + lightbox
+   ========================================================= */
+.gallery{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+@media (min-width: 700px){
+  .gallery{ grid-template-columns: repeat(4, 1fr); }
+  .gallery a:nth-child(5n+1){ grid-column: span 2; grid-row: span 2; }
+}
+.gallery a{
+  display:block;
+  overflow:hidden;
+  aspect-ratio: 1/1;
+  border-radius: var(--radius);
+}
+.gallery a:nth-child(5n+1){ aspect-ratio: auto; }
+.gallery img{
+  width:100%; height:100%; object-fit:cover;
+  transition: transform .6s var(--ease), filter .6s var(--ease);
+}
+.gallery a:hover img{ transform: scale(1.05); }
+
+.lightbox{
+  position:fixed; inset:0;
+  background: rgba(20,28,31,0.94);
+  z-index: 200;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0; visibility:hidden;
+  transition: opacity .3s var(--ease);
+  padding: var(--gutter);
+}
+.lightbox.is-open{ opacity:1; visibility:visible; }
+.lightbox img{
+  max-width: 100%; max-height: 86vh;
+  width:auto; height:auto;
+  margin: 0 auto;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+}
+.lightbox__close, .lightbox__prev, .lightbox__next{
+  position:absolute;
+  background:none; border:none; color: var(--limestone);
+  padding: 14px;
+}
+.lightbox__close{ top: 18px; right: 18px; }
+.lightbox__prev{ left: 8px; top:50%; transform:translateY(-50%); }
+.lightbox__next{ right: 8px; top:50%; transform:translateY(-50%); }
+@media (min-width: 700px){
+  .lightbox__prev{ left: 24px; }
+  .lightbox__next{ right: 24px; }
+}
+
+/* =========================================================
+   Amenities
+   ========================================================= */
+.amenities{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 28px;
+}
+@media (min-width: 700px){
+  .amenities{ grid-template-columns: repeat(3, 1fr); }
+}
+.amenities li{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  font-size: 0.96rem;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(43,42,40,0.08);
+}
+.amenities svg{ color: var(--sea); flex-shrink:0; }
+
+/* =========================================================
+   Contact / inquiry
+   ========================================================= */
+.contact-grid{
+  display:grid;
+  gap: clamp(32px, 6vw, 80px);
+}
+@media (min-width: 860px){
+  .contact-grid{ grid-template-columns: 1fr 1.1fr; }
+}
+.contact-card{
+  border: 1px solid rgba(43,42,40,0.12);
+  padding: clamp(24px, 4vw, 40px);
+}
+.contact-card + .contact-card{ margin-top: 18px; }
+.contact-card h3{ margin-bottom: 8px; }
+.contact-card p{ color: var(--ink-soft); margin-bottom: 18px; }
+.contact-card .link-arrow{ color: var(--aegean); }
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-bottom: 20px;
+}
+.field label{
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.field input, .field textarea{
+  border: none;
+  border-bottom: 1px solid rgba(43,42,40,0.25);
+  background: transparent;
+  padding: 10px 2px;
+  color: var(--ink);
+  transition: border-color .3s var(--ease);
+}
+.field input:focus, .field textarea:focus{
+  border-color: var(--aegean);
+}
+.field-row{
+  display:grid;
+  gap: 20px;
+}
+@media (min-width: 600px){
+  .field-row{ grid-template-columns: 1fr 1fr; }
+}
+.form-note{
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-top: 14px;
+}
+
+/* =========================================================
+   Cross-link panel (between the two houses)
+   ========================================================= */
+.cross-link{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap: 24px;
+  padding: clamp(28px, 5vw, 48px);
+  border: 1px solid rgba(43,42,40,0.12);
+}
+.cross-link__text .eyebrow{ margin-bottom: 10px; display:block; }
+
+/* misc */
+.center{ text-align:center; }
+.mt-lg{ margin-top: clamp(40px,6vw,72px); }
+.max-prose{ max-width: 42em; }
+
+</style>
+</head>
+<body>
+<nav class="nav nav--on-dark" aria-label="Main">
+  <div class="wrap">
+    <a href="index.html" class="nav-mark">EMVATIS<span>Kythnos, Greece</span></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#island">The Island</a></li>
+        <li><a href="emvatis-e1.html">Emvatis&nbsp;E1</a></li>
+        <li><a href="emvatis-e3.html">Emvatis&nbsp;E3</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="btn btn--cta btn--nav nav-cta">Enquire</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero__media" style="background-image:url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/700286208.jpg?k=346936613a314f4ea777df389b8a1433d062251d9b1b3acba529c5559137ff55&o=');"></div>
+  <div class="wrap hero__content">
+    <span class="eyebrow">Kythnos · Cyclades, Greece</span>
+    <h1>An island that doesn't try too hard.</h1>
+    <p class="hero__sub">Wild coastline, sleepy villages and more beaches than you could visit in a summer. Kythnos keeps things simple — Emvatis is just where you'll rest in between.</p>
+    <div style="margin-top:30px;">
+      <a href="#contact" class="btn btn--cta">Enquire about a stay</a>
+    </div>
+  </div>
+  <div class="hero__scroll"><span class="line"></span> Scroll</div>
+</header>
+
+<section class="section">
+  <div class="wrap intro">
+    <div class="reveal">
+      <span class="eyebrow">Where to begin</span>
+      <p class="poem" style="margin-top:22px;">
+        There are louder islands than this one.<br>
+        Kythnos doesn't perform for anyone — it simply offers itself: a path down to the water,
+        the smell of thyme after the heat breaks, an afternoon with <em>nowhere particular to be</em>.
+      </p>
+      <p class="poem" style="margin-top:22px;">
+        Stay long enough and the days start to blur together, in the best way.
+        That's more or less the whole idea.
+      </p>
+    </div>
+    <div class="intro__note reveal">
+      <span class="rule"></span>
+      <span class="eyebrow">A quiet base</span>
+      <p class="lede">Two simple houses in Merichas, a short walk from the sea — Emvatis E1 and Emvatis E3. They're not the reason to come. They're just a good place to come back to, every evening, while the island does the rest.</p>
+      <a class="link-arrow" href="#stay">
+        See where you'll stay
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line" id="island">
+  <div class="wrap">
+    <div class="feature-row reveal">
+      <div class="feature-row__media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Apokrousi%20beach%20Kythnos%202018.jpg?width=1600" alt="Apokrousi beach near Merichas, Kythnos" loading="lazy">
+      </div>
+      <div>
+        <span class="feature-row__num">I.</span>
+        <h2>An island of few words</h2>
+        <p class="lede">Kythnos is one of the least-visited islands in the Cyclades — barely ninety minutes from Athens by ferry, yet a world away from the crowds of its famous neighbours. There's no performance here, no rush to impress: just whitewashed villages, dry gold hills, and a hospitality that doesn't need to try.</p>
+        <p class="lede">It's an island built for slowness. Once you arrive, the only real decision left is which beach.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line">
+  <div class="wrap">
+    <div class="feature-row is-reversed reveal">
+      <div class="feature-row__media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kolona%20beach%2C%20Kythnos%202009%20n01.jpg?width=1600" alt="Kolona Beach, the famous double sandbar on Kythnos" loading="lazy">
+      </div>
+      <div>
+        <span class="feature-row__num">II.</span>
+        <h2>More coastline than you can use</h2>
+        <p class="lede">With over a hundred beaches scattered along its shores, Kythnos has a different shoreline for every mood — long sandy stretches near Merichas for lazy mornings, hidden coves reachable only by dirt track or boat, and Kolona, the island's famous double sandbar, where the sea meets you from both sides at once.</p>
+        <p class="lede">Most days, the hardest choice is whether to stay where you are.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line">
+  <div class="wrap">
+    <div class="feature-row reveal">
+      <div class="feature-row__media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/%CE%94%CF%81%CF%85%CE%BF%CF%80%CE%AF%CE%B4%CE%B1%20%CE%9A%CF%8D%CE%B8%CE%BD%CE%BF%CF%85.jpg" alt="Tiled rooftops of Dryopida village, Kythnos" loading="lazy">
+      </div>
+      <div>
+        <span class="feature-row__num">III.</span>
+        <h2>Evenings that take their time</h2>
+        <p class="lede">As the heat lifts, Merichas slips into its evening rhythm — fishing boats easing into the harbour, tables filling along the water, the first lights coming on in the hills. Further inland, Dryopida's tiled rooftops and Chora's narrow lanes hold a different pace entirely, and on the far coast, the thermal springs at Loutra have been drawing travellers since antiquity.</p>
+        <p class="lede">Nothing here is in a hurry. That's rather the point.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--aegean">
+  <div class="wrap">
+    <div class="reveal" style="max-width:42em;">
+      <span class="eyebrow eyebrow--light">Where the road forks</span>
+      <h2 style="margin-top:14px; color:var(--limestone);">From the door, the island opens up</h2>
+      <p class="lede" style="color:rgba(243,239,230,0.75); margin-top:16px;">Merichas sits at the centre of it all — close enough to walk to the water, near enough to everything else to make the rest of Kythnos feel within easy reach.</p>
+    </div>
+
+    <div class="signpost reveal">
+      <div class="signpost__post">
+        <div class="signpost__row">
+          <svg class="signpost__arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <span class="signpost__place">Martinakia Beach</span>
+        </div>
+        <p class="signpost__desc">A short stroll from Emvatis. Calm, shallow water and soft sand — the easy, everyday option.</p>
+      </div>
+      <div class="signpost__post">
+        <div class="signpost__row">
+          <svg class="signpost__arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="19 12 12 5 5 12"/><line x1="12" y1="5" x2="12" y2="19"/></svg>
+          <span class="signpost__place">Merichas Port</span>
+        </div>
+        <p class="signpost__desc">Ferries, tavernas, and the first lights of the evening. The heartbeat of this side of the island.</p>
+      </div>
+      <div class="signpost__post">
+        <div class="signpost__row">
+          <svg class="signpost__arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12 12 19 19 12"/><line x1="12" y1="19" x2="12" y2="5"/></svg>
+          <span class="signpost__place">Kolona Beach</span>
+        </div>
+        <p class="signpost__desc">The island's famous sandbar, sea on both sides. A scenic drive or a short boat ride — always worth it.</p>
+      </div>
+      <div class="signpost__post">
+        <div class="signpost__row">
+          <svg class="signpost__arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span class="signpost__place">Loutra</span>
+        </div>
+        <p class="signpost__desc">Natural hot springs on the far coast, known since antiquity. A whole different afternoon, across the island.</p>
+      </div>
+      <div class="signpost__post">
+        <div class="signpost__row">
+          <svg class="signpost__arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          <span class="signpost__place">Dryopida &amp; Chora</span>
+        </div>
+        <p class="signpost__desc">Tiled roofs, whitewashed lanes, a folklore museum and quiet squares. A short drive inland, a different century.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="stay">
+  <div class="wrap">
+    <div class="reveal" style="max-width:42em; margin-bottom:48px;">
+      <span class="eyebrow">Where you'll stay</span>
+      <h2 style="margin-top:14px;">Two homes, quietly kept</h2>
+      <p class="lede" style="margin-top:16px;">Both are in Merichas, a few minutes from the water, simply furnished and easy to settle into. Pick whichever suits your group — or get in touch and we'll help you decide.</p>
+    </div>
+
+    <div class="grid grid--2 reveal">
+      <a class="stay-card" href="emvatis-e1.html">
+        <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/700286200.jpg?k=5831acdf9732c27d0c43a2cf93947406971fc48e738487435d36d8123c768d0a&o=" alt="Living area at Emvatis E1, Kythnos" loading="lazy">
+        <div class="stay-card__overlay"></div>
+        <div class="stay-card__content">
+          <span class="eyebrow">Merichas, Kythnos</span>
+          <h3>Emvatis E1</h3>
+          <div class="stay-card__meta">
+            <span>2 Bedrooms</span><span>2 Bathrooms</span><span>Sea-view patio</span>
+          </div>
+          <span class="link-arrow">
+            View the house
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </a>
+      <a class="stay-card" href="emvatis-e3.html">
+        <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/677813375.jpg?k=37dbedf3c24a68c63fd97f638a73f95aa44aae98b6a0505de53243955fafc9c2&o=" alt="Living area at Emvatis E3, Kythnos" loading="lazy">
+        <div class="stay-card__overlay"></div>
+        <div class="stay-card__content">
+          <span class="eyebrow">Merichas, Kythnos</span>
+          <h3>Emvatis E3</h3>
+          <div class="stay-card__meta">
+            <span>3 Bedrooms</span><span>2 Bathrooms</span><span>Sea-view balcony</span>
+          </div>
+          <span class="link-arrow">
+            View the house
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" id="contact">
+  <div class="wrap">
+    <div class="footer__top">
+      <div>
+        <div class="footer__mark">Emvatis<span>Kythnos, Greece</span></div>
+        <p class="lede" style="color:rgba(243,239,230,0.65); margin-top:18px; max-width:28em;">Two quiet homes in Merichas, on the island of Kythnos. Get in touch and we'll help you plan the rest.</p>
+      </div>
+      <div>
+        <h4>Stay</h4>
+        <a href="emvatis-e1.html">Emvatis E1 — 2 Bedrooms</a>
+        <a href="emvatis-e3.html">Emvatis E3 — 3 Bedrooms</a>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <a href="mailto:georgebach04@gmail.com">georgebach04@gmail.com</a>
+        <a href="https://wa.me/306908505134" target="_blank" rel="noopener">WhatsApp +30 69 08 505 134</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year"></span> Emvatis, Kythnos.</span>
+      <span>Island photography via Wikimedia Commons, CC BY-SA.</span>
+    </div>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+
+<script>
+// =========================================================
+// EMVATIS · KYTHNOS — shared behaviour
+// =========================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ---- Nav: scrolled state + mobile toggle ---- */
+  const nav = document.querySelector('.nav');
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  if (nav){
+    const onScroll = () => {
+      nav.classList.toggle('is-scrolled', window.scrollY > 40);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  if (navToggle && navLinks){
+    navToggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('is-open');
+      navToggle.classList.toggle('is-open', open);
+      nav?.classList.toggle('menu-open', open);
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navLinks.classList.remove('is-open');
+      navToggle.classList.remove('is-open');
+      nav?.classList.remove('menu-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }));
+  }
+
+  /* ---- Scroll reveal ---- */
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealEls.length){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+
+  /* ---- Gallery lightbox ---- */
+  const galleryLinks = Array.from(document.querySelectorAll('.gallery a'));
+  const lightbox = document.querySelector('.lightbox');
+  if (galleryLinks.length && lightbox){
+    const lightboxImg = lightbox.querySelector('img');
+    const closeBtn = lightbox.querySelector('.lightbox__close');
+    const prevBtn = lightbox.querySelector('.lightbox__prev');
+    const nextBtn = lightbox.querySelector('.lightbox__next');
+    let current = 0;
+
+    const show = (i) => {
+      current = (i + galleryLinks.length) % galleryLinks.length;
+      const full = galleryLinks[current].getAttribute('href');
+      const alt = galleryLinks[current].querySelector('img')?.getAttribute('alt') || '';
+      lightboxImg.setAttribute('src', full);
+      lightboxImg.setAttribute('alt', alt);
+    };
+
+    galleryLinks.forEach((a, i) => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        show(i);
+        lightbox.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    const closeLightbox = () => {
+      lightbox.classList.remove('is-open');
+      document.body.style.overflow = '';
+    };
+
+    closeBtn?.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    prevBtn?.addEventListener('click', () => show(current - 1));
+    nextBtn?.addEventListener('click', () => show(current + 1));
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('is-open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+  }
+
+  /* ---- Contact form -> email client ---- */
+  const form = document.querySelector('.inquiry-form');
+  if (form){
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = form.querySelector('#name')?.value.trim() || '';
+      const dates = form.querySelector('#dates')?.value.trim() || '';
+      const guests = form.querySelector('#guests')?.value.trim() || '';
+      const message = form.querySelector('#message')?.value.trim() || '';
+      const houseName = form.dataset.house || 'Emvatis';
+
+      const subject = encodeURIComponent(`Stay enquiry — ${houseName}`);
+      const bodyLines = [
+        name ? `Name: ${name}` : null,
+        dates ? `Dates: ${dates}` : null,
+        guests ? `Guests: ${guests}` : null,
+        '',
+        message || '(no additional message)'
+      ].filter(line => line !== null);
+      const body = encodeURIComponent(bodyLines.join('\n'));
+
+      window.location.href = `mailto:georgebach04@gmail.com?subject=${subject}&body=${body}`;
+    });
+  }
+
+});
+
+</script>
+</body>
+</html>
